@@ -5,15 +5,15 @@ import com.learnbridge.learn_bridge_back_end.entity.User;
 import java.util.List;
 
 public interface UserDAO {
-    // CRUD operations
 
-    public void insertUser(User user);
 
-    public void updateUser(User user);
+     void saveUser(User user);
 
-    public void deleteUser(User user);
+     void updateUser(User user);
 
-    public User findUserByEmail(String email);
+     void deleteUser(Long userId);
 
-    public List<User> findAllUsers();
+     User findUserByEmail(String email);
+
+    List<User> findAllUsers();
 }

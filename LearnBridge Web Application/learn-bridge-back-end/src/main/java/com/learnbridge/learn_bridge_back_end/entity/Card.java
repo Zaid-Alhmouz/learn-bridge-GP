@@ -27,7 +27,7 @@ public class Card {
     @Column(name = "card_type", nullable = false, length = 10)
     private CardType cardType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
