@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+:root{
+
+    --font-family: "Encode Sans Expanded", "sans-serif"
+}
+
+body{
+    font-family: var(--font-family) !important;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
