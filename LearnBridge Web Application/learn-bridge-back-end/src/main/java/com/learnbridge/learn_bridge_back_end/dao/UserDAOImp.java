@@ -2,6 +2,7 @@ package com.learnbridge.learn_bridge_back_end.dao;
 
 import com.learnbridge.learn_bridge_back_end.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,11 @@ public class UserDAOImp implements UserDAO {
         String sqlStatement = "SELECT u FROM User u WHERE u.email = :email";
         TypedQuery<User> query = entityManager.createQuery(sqlStatement, User.class);
         query.setParameter("email", email);
-        User user = query.getSingleResult();
-        return user;
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
