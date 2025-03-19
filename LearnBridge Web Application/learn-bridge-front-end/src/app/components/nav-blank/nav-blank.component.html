@@ -1,7 +1,10 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" routerLink="home">
-      <img src="./assets/images/logo.png" class="w-50 h-50" alt="logo" />
+      <!-- <img src="./assets/images/logo.png" class="w-50 h-50" alt="logo" /> -->
+      <div class="ms-3">
+        <h3 class="">Learn Bridge</h3>
+      </div>
     </a>
     <button
       class="navbar-toggler"
@@ -15,17 +18,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item ms-3">
           <a
             class="nav-link text-capitalize menu"
             routerLink="home"
             routerLinkActive=""
-            
             >home</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item ms-3">
           <a
             class="nav-link text-capitalize menu"
             routerLink="findinstructor"
@@ -33,7 +35,7 @@
             >find instructor</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item ms-3">
           <a
             class="nav-link text-capitalize menu"
             routerLink="posts"
@@ -41,7 +43,7 @@
             >posts</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item ms-3">
           <a
             class="nav-link text-capitalize menu"
             routerLink="payment"
@@ -49,7 +51,7 @@
             >payment</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item ms-3">
           <a
             class="nav-link text-capitalize menu"
             routerLink="myposts"
@@ -57,31 +59,36 @@
             >my posts</a
           >
         </li>
+        <li class="nav-item ms-3">
+          <a
+            class="nav-link text-capitalize menu"
+            routerLink="createpost"
+            routerLinkActive=""
+            >create post</a
+          >
+        </li>
       </ul>
-  
+
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item ms-2 cursor-pointer">
           <a class="nav-link">
             <i class="fa-solid fa-bell"></i>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item ms-2 cursor-pointer">
           <a class="nav-link">
             <i class="fa-solid fa-message"></i>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item me-4 ms-2 cursor-pointer">
           <a class="nav-link">
             <i class="fa-solid fa-user"></i>
           </a>
         </li>
         <li class="nav-item">
-          <span class="nav-link cursor-pointer">
-            Sign Out
-          </span>
+          <span class="nav-link cursor-pointer me-3"> Sign Out </span>
         </li>
       </ul>
     </div>
   </nav>
-  
 </header>

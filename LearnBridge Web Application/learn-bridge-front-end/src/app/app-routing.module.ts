@@ -11,24 +11,30 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 
 const routes: Routes = [
 
   {
-    path: '', component: BlankLayoutComponent, children: [
+    path: '', component: AuthLayoutComponent, children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: LoginComponent },
+      { path: 'home', component: HomeComponent, title: "Home" },
+      { path: 'findinstructor', component: FindInstructorComponent, title: "Find Instructor" },
+      { path: 'posts', component: PostsComponent, title: "Posts" },
+    ]
+  },
+  {
+    path: 'blank', component: BlankLayoutComponent, children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, title: "Home" },
       { path: 'findinstructor', component: FindInstructorComponent, title: "Find Instructor" },
       { path: 'posts', component: PostsComponent, title: "Posts" },
       { path: 'payment', component: PaymentComponent, title: "Payment" },
       { path: 'myposts', component: MyPostsComponent, title: "Myposts" },
-    ]
-  },
-  {
-    path: '', component: AuthLayoutComponent, children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      { path: 'createpost', component: CreatePostComponent, title: "CreatePost" },
     ]
   },
 

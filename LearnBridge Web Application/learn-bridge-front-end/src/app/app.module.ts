@@ -19,7 +19,8 @@ import { BlankLayoutComponent } from './components/blank-layout/blank-layout.com
 import { ReactiveFormsModule } from '@angular/forms';
 
 
-import {HttpClientModule} from "@angular/common/http"
+import {HttpClientModule} from "@angular/common/http";
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {HttpClientModule} from "@angular/common/http"
     NavBlankComponent,
     NavAuthComponent,
     AuthLayoutComponent,
-    BlankLayoutComponent
+    BlankLayoutComponent,
+    CreatePostComponent,   
   ],
   imports: [
     BrowserModule,
