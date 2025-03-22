@@ -45,9 +45,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             // Create a new user with a random password
             user = new User();
             user.setEmail(email);
+            user.setName(oAuth2User.getAttribute("name"));
             user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString())); // We use a DUMMY password here just to keep the data storing in the table safe (password not null constraint) as we will not use it for authentication
 
-            user.setUserRole(UserRole.LEARNER); // needs to be modified later when linking it with the pages
+            user.setUserRole(UserRole.LEARNER);
 
             userDAO.saveUser(user);
         }

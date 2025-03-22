@@ -11,6 +11,9 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "email")
     private String email;
 
@@ -18,12 +21,25 @@ public class User {
     private String password;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+
+
+
 
     public Long getId() {
         return userId;
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getEmail() {
         return email;
@@ -53,6 +69,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + userId +
+                "name=" + name +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
