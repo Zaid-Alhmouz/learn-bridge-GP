@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ export class LoginComponent implements OnInit {
   loginSubmitted = false;
   signupSubmitted = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService ) {}
 
   ngOnInit() {
     // Initialize login form with validators
@@ -43,7 +46,7 @@ export class LoginComponent implements OnInit {
         Validators.minLength(6),
         Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$') // At least one letter and one number
       ]],
-      accountType: ['', [
+      role: ['', [
         Validators.required
       ]]
     });
@@ -55,32 +58,33 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     this.loginSubmitted = true;
-
-    // Stop here if form is invalid
-    if (this.loginForm.invalid) {
-      // Add shake animation to invalid fields
-      const invalidControls = document.querySelectorAll('.login-form .ng-invalid');
-      invalidControls.forEach(element => {
-        element.classList.add('shake');
-        setTimeout(() => element.classList.remove('shake'), 500);
-      });
-      return;
-    }
-
-    // Add success animation
-    document.querySelector('.login-form')?.classList.add('form-submitted');
-    
-    // Form is valid, proceed with login logic
-    console.log('Login form submitted', this.loginForm.value);
-    
-    // You would typically call your authentication service here
-    // this.authService.login(this.loginForm.value).subscribe(...);
+    if (this.loginForm.invalid) return;
+  
+    this.authService.login(
+      this.loginForm.value.email,
+      this.loginForm.value.password
+    ).subscribe({
+      next: (res) => {
+        console.log('Login response:', res);
+        // Verify session (e.g., fetch user profile)
+        this.authService.checkAuthStatus().subscribe({
+          next: (user) => {
+            console.log('Authenticated user:', user);
+            // Redirect to dashboard/home
+          },
+          error: (err) => console.error('Session check failed:', err)
+        });
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+        // Show error to user
+      }
+    });
   }
 
   onSignupSubmit() {
     this.signupSubmitted = true;
-    
-    // Stop here if form is invalid
+  
     if (this.signupForm.invalid) {
       // Add shake animation to invalid fields
       const invalidControls = document.querySelectorAll('.signup-form .ng-invalid');
@@ -90,15 +94,24 @@ export class LoginComponent implements OnInit {
       });
       return;
     }
-
-    // Add success animation
-    document.querySelector('.signup-form')?.classList.add('form-submitted');
-    
-    // Form is valid, proceed with signup logic
-    console.log('Signup form submitted', this.signupForm.value);
-    
-    // You would typically call your user registration service here
-    // this.userService.register(this.signupForm.value).subscribe(...);
+  
+    const userData = {
+      name: this.signupForm.value.name,
+      email: this.signupForm.value.email,
+      password: this.signupForm.value.password,
+      role: this.signupForm.value.role.toUpperCase() // Ensure uppercase
+    };
+  
+    this.authService.register(userData).subscribe({
+      next: () => {
+        console.log('Registration successful');
+        // Add success logic (e.g., redirect to login)
+      },
+      error: (err) => {
+        console.error('Registration failed:', err);
+        // Show error message to user
+      }
+    });
   }
 
   // Reset form status when switching between forms
@@ -111,25 +124,12 @@ export class LoginComponent implements OnInit {
 
   // Method to handle Google sign in
   signInWithGoogle() {
-    console.log('Sign in with Google clicked');
-    // Here you would integrate with your Google authentication service
-    // For example:
-    // this.authService.signInWithGoogle().then(result => {
-    //   // Handle successful sign in
-    // }).catch(error => {
-    //   // Handle error
-    // });
+    this.authService.loginWithGoogle();
   }
 
   // Method to handle Google sign up
   signUpWithGoogle() {
-    console.log('Sign up with Google clicked');
-    // Here you would integrate with your Google authentication service for registration
-    // For example:
-    // this.authService.signUpWithGoogle().then(result => {
-    //   // Handle successful sign up
-    // }).catch(error => {
-    //   // Handle error
-    // });
+    this.authService.loginWithGoogle(); // also handles the sign up
+
   }
 }

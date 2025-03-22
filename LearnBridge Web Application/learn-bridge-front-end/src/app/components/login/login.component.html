@@ -68,7 +68,7 @@
               
               <!-- Google Sign In Button -->
               <div class="google-button input-box">
-                <button type="button" (click)="signInWithGoogle()">
+                <button type="button" (click)="signUpWithGoogle()">
                   <i class="fab fa-google"></i>
                   Sign in with Google
                 </button>
@@ -134,12 +134,12 @@
               <div class="input-box">
                 <i class="fas fa-user-tag"></i>
                 <select
-                  formControlName="accountType"
+                  formControlName="role"
                   required
                 >
-                  <option value="" disabled selected>Select account type</option>
-                  <option value="learner">Learner</option>
-                  <option value="instructor">Instructor</option>
+                  <option value="role" disabled selected>Select account type</option>
+                  <option value="LEARNER">Learner</option>
+                  <option value="INSTRUCTOR">Instructor</option>
                 </select>
                 <div class="focus-indicator"></div>
                 <div class="error-message" *ngIf="signupForm.get('accountType')?.invalid && (signupForm.get('accountType')?.dirty || signupForm.get('accountType')?.touched)">
