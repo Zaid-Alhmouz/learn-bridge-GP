@@ -65,6 +65,14 @@
               <div class="button input-box">
                 <input type="submit" [disabled]="loginForm.invalid" value="Login" />
               </div>
+              
+              <!-- Google Sign In Button -->
+              <div class="google-button input-box">
+                <button type="button" (click)="signInWithGoogle()">
+                  <i class="fab fa-google"></i>
+                  Sign in with Google
+                </button>
+              </div>
 
               <div class="text sign-up-text">
                 Don't have an account?
@@ -121,10 +129,36 @@
                   <span *ngIf="signupForm.get('password')?.errors?.['pattern']">Password must contain at least one letter and one number</span>
                 </div>
               </div>
+              
+              <!-- Account Type Selection -->
+              <div class="input-box">
+                <i class="fas fa-user-tag"></i>
+                <select
+                  formControlName="accountType"
+                  required
+                >
+                  <option value="" disabled selected>Select account type</option>
+                  <option value="learner">Learner</option>
+                  <option value="instructor">Instructor</option>
+                </select>
+                <div class="focus-indicator"></div>
+                <div class="error-message" *ngIf="signupForm.get('accountType')?.invalid && (signupForm.get('accountType')?.dirty || signupForm.get('accountType')?.touched)">
+                  <span *ngIf="signupForm.get('accountType')?.errors?.['required']">Account type is required</span>
+                </div>
+              </div>
 
               <div class="button input-box">
                 <input type="submit" [disabled]="signupForm.invalid" value="Signup" />
               </div>
+              
+              <!-- Google Sign Up Button -->
+              <div class="google-button input-box">
+                <button type="button" (click)="signUpWithGoogle()">
+                  <i class="fab fa-google"></i>
+                  Sign up with Google
+                </button>
+              </div>
+              
               <div class="text sign-up-text">
                 Already have an account? <label for="flip">Login now</label>
               </div>

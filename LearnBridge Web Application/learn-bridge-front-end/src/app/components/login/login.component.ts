@@ -42,6 +42,9 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.minLength(6),
         Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$') // At least one letter and one number
+      ]],
+      accountType: ['', [
+        Validators.required
       ]]
     });
   }
@@ -104,5 +107,29 @@ export class LoginComponent implements OnInit {
     this.signupSubmitted = false;
     document.querySelector('.login-form')?.classList.remove('form-submitted');
     document.querySelector('.signup-form')?.classList.remove('form-submitted');
+  }
+
+  // Method to handle Google sign in
+  signInWithGoogle() {
+    console.log('Sign in with Google clicked');
+    // Here you would integrate with your Google authentication service
+    // For example:
+    // this.authService.signInWithGoogle().then(result => {
+    //   // Handle successful sign in
+    // }).catch(error => {
+    //   // Handle error
+    // });
+  }
+
+  // Method to handle Google sign up
+  signUpWithGoogle() {
+    console.log('Sign up with Google clicked');
+    // Here you would integrate with your Google authentication service for registration
+    // For example:
+    // this.authService.signUpWithGoogle().then(result => {
+    //   // Handle successful sign up
+    // }).catch(error => {
+    //   // Handle error
+    // });
   }
 }

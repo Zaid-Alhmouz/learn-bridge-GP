@@ -148,7 +148,8 @@ section {
   margin-bottom: 20px;
 }
 
-.form-content .input-box input {
+.form-content .input-box input,
+.form-content .input-box select {
   height: 100%;
   width: 100%;
   outline: none;
@@ -157,6 +158,19 @@ section {
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease;
+}
+
+.form-content .input-box select {
+  background-color: #fff;
+  cursor: pointer;
+  color: #555;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.form-content .input-box select::-ms-expand {
+  display: none;
 }
 
 .form-content .input-box i {
@@ -202,7 +216,7 @@ section {
 }
 
 .forms .form-content .button input:hover {
-  background: #02a698 ;
+  background: #02a698;
 }
 
 .button input[disabled] {
@@ -211,7 +225,7 @@ section {
 }
 
 .forms .form-content label {
-  color: #02a698 ;
+  color: #02a698;
   cursor: pointer;
 }
 
@@ -247,20 +261,24 @@ section {
 }
 
 /* State-specific styles */
-.input-box input:focus + .focus-indicator {
+.input-box input:focus + .focus-indicator,
+.input-box select:focus + .focus-indicator {
   background-color: #03CCBA;
   animation: pulse 0.5s ease-in-out;
 }
 
-.input-box input:active + .focus-indicator {
-  background-color: #02a698 ;
+.input-box input:active + .focus-indicator,
+.input-box select:active + .focus-indicator {
+  background-color: #02a698;
 }
 
-.input-box input.ng-invalid.ng-touched + .focus-indicator {
+.input-box input.ng-invalid.ng-touched + .focus-indicator,
+.input-box select.ng-invalid.ng-touched + .focus-indicator {
   background-color: #e74c3c;
 }
 
-.input-box input.ng-valid.ng-dirty + .focus-indicator {
+.input-box input.ng-valid.ng-dirty + .focus-indicator,
+.input-box select.ng-valid.ng-dirty + .focus-indicator {
   background-color: #2ecc71;
 }
 
@@ -283,13 +301,48 @@ section {
   100% {transform: scaleX(1);}
 }
 
-.input-box input.ng-invalid.ng-touched {
+.input-box input.ng-invalid.ng-touched,
+.input-box select.ng-invalid.ng-touched {
   animation: shake 0.5s;
 }
 
 .form-submitted .button input {
   background: #2ecc71;
   animation: success-pulse 0.5s;
+}
+
+/* Google Button Styles */
+.google-button {
+  margin-top: 15px;
+}
+
+.google-button button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 15px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.google-button button:hover {
+  background-color: #f8f8f8;
+  border-color: #ccc;
+}
+
+.google-button button i {
+  margin-right: 15px;
+  color: #4285F4;
+  font-size: 18px;
+  padding-right: 170px;
 }
 
 /* Responsive design */
