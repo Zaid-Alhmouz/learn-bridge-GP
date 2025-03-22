@@ -6,6 +6,9 @@ import com.learnbridge.learn_bridge_back_end.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +22,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +33,7 @@ public class SecurityConfig {
 
 
     @Autowired
-    public SecurityConfig(CustomUserDetailService customUserDetailService, CustomOAuth2UserService customOAuth2UserService) {
+    public SecurityConfig(CustomUserDetailService customUserDetailService, @Lazy CustomOAuth2UserService customOAuth2UserService) {
         this.customUserDetailService = customUserDetailService;
         this.customOAuth2UserService = customOAuth2UserService;
     }
@@ -37,17 +41,16 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setExposedHeaders(Arrays.asList("*"));
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // Critical for cookies
+        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedMethods(List.of("*"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("Set-Cookie")); // Expose cookies if needed
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
+        source.registerCorsConfiguration("/**", config);
         return source;
-
     }
 
 
@@ -57,36 +60,72 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/oauth0/**", "/api/public/**").permitAll()
-                        .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/register", "/api/login", "/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/main", true)
+                        .loginProcessingUrl("/api/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .successHandler((request, response, authentication) -> {
+                            // Return JSON response instead of redirect
+                            response.setStatus(HttpStatus.OK.value());
+                            response.getWriter().write("{\"status\": \"Login successful\"}");
+                            response.setContentType("application/json");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.getWriter().write("{\"error\": \"Invalid credentials\"}");
+                            response.setContentType("application/json");
+                        })
                         .permitAll()
-                )
-                .oauth2Login(oauth -> oauth
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/main", true)
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService)
-                        )
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutUrl("/api/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpStatus.OK.value());
+                            response.getWriter().write("{\"status\": \"Logout successful\"}");
+                        })
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
-                        .permitAll()
                 )
-                .userDetailsService(customUserDetailService);
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                        })
+                );
 
         return http.build();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

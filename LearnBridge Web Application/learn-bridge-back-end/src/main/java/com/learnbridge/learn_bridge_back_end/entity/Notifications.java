@@ -25,7 +25,7 @@ public class Notifications {
     @Column(name = "notification_type")
     private String notificationType;
 
-    @Column(name = "notification_type")
+    @Column(name = "time_stamp")
     private LocalDateTime timestamp;
 
     @PrePersist

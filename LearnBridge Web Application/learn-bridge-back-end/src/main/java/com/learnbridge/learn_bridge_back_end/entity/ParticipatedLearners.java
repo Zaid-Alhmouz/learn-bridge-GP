@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class ParticipatedLearners {
 
     @EmbeddedId
-    private ParticipatedLearnerId id;
+    private ParticipatedLearnerId participatedLearnerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("chatId")
@@ -25,11 +25,11 @@ public class ParticipatedLearners {
     public ParticipatedLearners(Chat chat, Learner learner) {
         this.chat = chat;
         this.learner = learner;
-        this.id = new ParticipatedLearnerId(chat.getChatId(), learner.getLearnerId());
+        this.participatedLearnerId = new ParticipatedLearnerId(chat.getChatId(), learner.getLearnerId());
     }
 
 
-    public ParticipatedLearnerId getId() { return id; }
+    public ParticipatedLearnerId getId() { return participatedLearnerId; }
     public Chat getChat() { return chat; }
     public Learner getLearner() { return learner; }
     public void setChat(Chat chat) { this.chat = chat; }

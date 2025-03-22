@@ -4,6 +4,7 @@ import com.learnbridge.learn_bridge_back_end.dao.UserDAO;
 import com.learnbridge.learn_bridge_back_end.entity.User;
 import com.learnbridge.learn_bridge_back_end.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +26,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CustomOAuth2UserService(final UserDAO userDAO, final PasswordEncoder passwordEncoder) {
+    public CustomOAuth2UserService(UserDAO userDAO, @Lazy PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
     }

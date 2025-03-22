@@ -10,8 +10,8 @@ public interface RatingDAO {
     void updateRating(Rating rating);
     void deleteRating(Long ratingId);
     List<Rating> findAllRatings();
-    Rating findRatingBySessionId(Long sessionId); // To be revised
+    Rating findRatingBySessionAndLearnerId(Long sessionId, Long learnerId); // To be revised
     List<Rating> findRatingsByInstructorId(Long instructorId);
-    void deleteRatingByUserId(Long sessionId);
+    void deleteRatingBySessionAndLearnerId(Long sessionId, Long learnerId);
 
 }

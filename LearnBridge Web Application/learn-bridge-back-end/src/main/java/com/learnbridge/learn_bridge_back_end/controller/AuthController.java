@@ -61,7 +61,7 @@ public class AuthController {
 
 
         userDAO.saveUser(user);
-        return ResponseEntity.ok().body("User registered successfully");
+        return ResponseEntity.ok().body(Map.of("message", "User registered successfully")); // Return JSON
     }
 
     @PostMapping("/admin/create-admin")

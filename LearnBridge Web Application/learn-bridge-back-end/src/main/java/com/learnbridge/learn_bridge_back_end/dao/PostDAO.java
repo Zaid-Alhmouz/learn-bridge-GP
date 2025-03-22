@@ -10,7 +10,6 @@ public interface PostDAO {
     void updatePost(Post post);
     void deletePost(Long postId);
     Post findPostById(Long postId);
-    void deletePostByUserId(Long userId);
     List<Post> findAllPosts();
     List<Post> findApprovedPosts();
     List<Post> findApprovedPostsByUserId(Long userId);

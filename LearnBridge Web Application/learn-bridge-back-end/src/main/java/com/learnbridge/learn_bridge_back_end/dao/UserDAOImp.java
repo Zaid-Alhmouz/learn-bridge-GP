@@ -20,6 +20,7 @@ public class UserDAOImp implements UserDAO {
 
 
     @Override
+    @Transactional
     public void saveUser(User user) {
         entityManager.persist(user);
     }
