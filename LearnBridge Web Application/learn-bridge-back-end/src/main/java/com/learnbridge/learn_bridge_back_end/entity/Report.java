@@ -33,6 +33,10 @@ public class Report {
     @Column(name = "report_status")
     private ReportStatus reportStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "report_type")
+    private ReportType reportType;
+
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
@@ -87,6 +91,22 @@ public class Report {
         this.creationDate = creationDate;
     }
 
+    public ReportStatus getReportStatus() {
+        return reportStatus;
+    }
+
+    public void setReportStatus(ReportStatus reportStatus) {
+        this.reportStatus = reportStatus;
+    }
+
+    public ReportType getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(ReportType reportType) {
+        this.reportType = reportType;
+    }
+
     @Override
     public String toString() {
         return "Report{" +
@@ -95,6 +115,8 @@ public class Report {
                 ", reporter=" + reporter +
                 ", reportedUser=" + reportedUser +
                 ", description='" + description + '\'' +
+                ", reportStatus=" + reportStatus +
+                ", reportType=" + reportType +
                 ", creationDate=" + creationDate +
                 '}';
     }

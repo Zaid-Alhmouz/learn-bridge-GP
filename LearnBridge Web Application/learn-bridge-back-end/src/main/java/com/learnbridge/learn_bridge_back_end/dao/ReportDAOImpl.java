@@ -68,4 +68,14 @@ public class ReportDAOImpl implements ReportDAO {
         return query.getResultList();
 
     }
+
+    @Override
+    public List<Report> findResolvedReports() {
+        String sqlStatement = "select r from Report r where r.reportStatus = :status";
+        TypedQuery<Report> query = entityManager.createQuery(sqlStatement, Report.class);
+        query.setParameter("status", ReportStatus.RESOLVED);
+
+
+        return query.getResultList();
+    }
 }
