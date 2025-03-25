@@ -1,53 +1,68 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators'; 
+import { Observable, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private apiUrl = 'http://localhost:8080';
+  // Mock user storage (simulating a database)
+  private users: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  // Flag to track login status
+  private isLoggedIn = false;
 
+  constructor() {}
 
-  login(email: string, password: string): Observable<any> {
-    const body = new URLSearchParams();
-    body.set('username', email);
-    body.set('password', password);
-  
-    return this.http.post(`${this.apiUrl}/api/login`, body.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      withCredentials: true, // Required for cookies/session
-      responseType: 'text' // Workaround for empty responses
-    }).pipe(
-      map(() => ({ status: 'Login successful' })), // Map empty response to success
-      catchError((err) => {
-        console.error('Login error:', err);
-        return throwError(() => new Error('Login failed'));
-      })
+  // Mock registration method (unchanged from previous version)
+  setRegister(userData: any): Observable<any> {
+    const existingUser = this.users.find(user => user.email === userData.email);
+    
+    if (existingUser) {
+      return throwError(() => ({
+        error: { message: 'Email already exists' }
+      }));
+    }
+
+    this.users.push(userData);
+
+    return of({ success: true, message: 'Registration successful' }).pipe(
+      delay(1000)
     );
   }
 
-  // Registration
-  register(userData: { name: string; email: string; password: string; role: string }) {
-    return this.http.post(`${this.apiUrl}/api/register`, userData, {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest' // Prevent redirects
-      }
-    });
+  // Mock login method with success detection
+  setLogin(credentials: any): Observable<any> {
+    const user = this.users.find(
+      u => u.email === credentials.email && u.password === credentials.password
+    );
+
+    if (user) {
+      // Set login status to true
+      this.isLoggedIn = true;
+      
+      return of({ 
+        success: true, 
+        user,
+        message: 'Login successful' 
+      });
+    } else {
+      // Reset login status
+      this.isLoggedIn = false;
+      
+      return throwError(() => ({
+        error: { message: 'Invalid email or password' }
+      }));
+    }
   }
 
-  // Google OAuth Initiation
-  loginWithGoogle() {
-    window.location.href = `${this.apiUrl}/oauth2/authorization/google`;
+  // Method to check login status
+  getIsLoggedIn(): boolean {
+    return this.isLoggedIn;
   }
 
-  // Check login status
-  checkAuthStatus() {
-    return this.http.get(`${this.apiUrl}/user`, {
-      withCredentials: true
-    });
+  // Method to logout
+  logout() {
+    this.isLoggedIn = false;
   }
 }

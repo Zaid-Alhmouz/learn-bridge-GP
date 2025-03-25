@@ -29,7 +29,6 @@
               >
             </div>
           </div>
-
           <div class="input-box">
             <i class="fas fa-lock"></i>
             <input
@@ -55,21 +54,17 @@
               >
             </div>
           </div>
-
           <div class="forgot-password">
             <a href="javascript:void(0)" (click)="onForgotPassword()"
               >Forgot password?</a
             >
           </div>
-
           <p *ngIf="errorMessage" class="alert alert-danger">
             {{ errorMessage }}
           </p>
-
           <div class="button input-box">
             <input type="submit" [disabled]="loginForm.invalid" value="Login" />
           </div>
-
           <div class="text signup-text">
             Don't have an account? <a routerLink="/register">Sign Up</a>
           </div>

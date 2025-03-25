@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
- 
 
 @Component({
   selector: 'app-login',
@@ -12,18 +11,16 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './login.component.scss'
 })
 
-
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginSubmitted = false;
   errorMessage: string = '';
 
   constructor(
-     private _FormBuilder: FormBuilder,
+    private _FormBuilder: FormBuilder,
     private _AuthService: AuthService,
     private _Router: Router
   ) { }
- 
 
   ngOnInit() {
     // Initialize login form with validators
@@ -37,7 +34,6 @@ export class LoginComponent implements OnInit {
         Validators.minLength(6)
       ]]
     });
- 
   }
 
   // Getter for easy access to form fields
@@ -45,7 +41,7 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     this.loginSubmitted = true;
-     
+    
     if (this.loginForm.invalid) {
       const invalidControls = document.querySelectorAll('.login-form .ng-invalid');
       invalidControls.forEach(element => {
@@ -64,15 +60,12 @@ export class LoginComponent implements OnInit {
         // Optional: You could add a similar shake animation for error cases
         this.loginSubmitted = false; // Reset submission flag on error
         this.errorMessage = error.error.message || 'Login failed. Please check your credentials.';
- 
       }
     });
   }
 
-   // Optional: Add forgot password navigation
+  // Optional: Add forgot password navigation
   onForgotPassword() {
     this._Router.navigate(['/forgot-password']);
   }
 }
-
-
