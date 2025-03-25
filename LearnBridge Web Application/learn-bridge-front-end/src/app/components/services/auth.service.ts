@@ -1,3 +1,27 @@
+// import { HttpClient } from '@angular/common/http';
+// import { Injectable } from '@angular/core';
+// import { Observable } from 'rxjs';
+
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class AuthService {
+
+//   constructor(private _HttpClient: HttpClient) { }
+
+//   setRegister(userData: object): Observable<any> {
+//     return this._HttpClient.post('https://ecommerce.routemisr.com/api/v1/auth/signup', userData);
+//   }
+
+//   setLogin(userData: object): Observable<any> {
+//     return this._HttpClient.get('https://route-ecommerce.vercel.app/api/v1/auth/signin', userData);
+//   }
+// }
+
+
+// *********************************************************************************************
+
+
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -12,12 +36,12 @@ export class AuthService {
   // Flag to track login status
   private isLoggedIn = false;
 
-  constructor() {}
+  constructor() { }
 
   // Mock registration method (unchanged from previous version)
   setRegister(userData: any): Observable<any> {
     const existingUser = this.users.find(user => user.email === userData.email);
-    
+
     if (existingUser) {
       return throwError(() => ({
         error: { message: 'Email already exists' }
@@ -40,16 +64,16 @@ export class AuthService {
     if (user) {
       // Set login status to true
       this.isLoggedIn = true;
-      
-      return of({ 
-        success: true, 
+
+      return of({
+        success: true,
         user,
-        message: 'Login successful' 
+        message: 'Login successful'
       });
     } else {
       // Reset login status
       this.isLoggedIn = false;
-      
+
       return throwError(() => ({
         error: { message: 'Invalid email or password' }
       }));
