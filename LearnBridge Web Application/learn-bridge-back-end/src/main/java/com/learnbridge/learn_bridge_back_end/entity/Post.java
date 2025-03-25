@@ -3,6 +3,7 @@ package com.learnbridge.learn_bridge_back_end.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -14,9 +15,11 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long post_id;
+    private Long postId;
 
-
+    @Id
+    @Column(name = "author_id")
+    private Long authorId;
 
     @MapsId("authorId")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,7 +30,7 @@ public class Post {
     private LocalDate approvalDate;
 
     @Column(name = "price",nullable = false, precision = 6, scale = 2)
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "subject", nullable = false, length = 100)
     private String subject;
@@ -42,15 +45,14 @@ public class Post {
     @Column(name = "category", nullable = false, length = 50)
     private String category;
 
-    public Long getPost_id() {
-        return post_id;
-    }
-
 
     public Long getAuthorId() {
-        return author.getId();
+        return authorId;
     }
 
+    public Long getPostId() {
+        return postId;
+    }
 
     public User getAuthor() {
         return author;
@@ -68,11 +70,11 @@ public class Post {
         this.approvalDate = approvalDate;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -111,7 +113,7 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "post_id=" + post_id +
+                "post_id=" + postId +
                 ", authorId=" + author.getId() +
                 ", approvalDate=" + approvalDate +
                 ", price=" + price +

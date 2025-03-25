@@ -41,14 +41,7 @@ public class PostDAOImpl implements PostDAO {
         return entityManager.find(Post.class, postId);
     }
 
-    @Override
-    @Transactional
-    public void deletePostByUserId(Long userId) {
-        Post post = entityManager.find(Post.class, userId);
-        if (post != null) {
-            entityManager.remove(post);
-        }
-    }
+
 
     @Override
     public List<Post> findAllPosts() {

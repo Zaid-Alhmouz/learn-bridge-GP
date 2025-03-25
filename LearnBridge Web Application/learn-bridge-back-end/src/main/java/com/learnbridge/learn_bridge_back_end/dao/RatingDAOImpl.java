@@ -3,7 +3,6 @@ package com.learnbridge.learn_bridge_back_end.dao;
 import com.learnbridge.learn_bridge_back_end.entity.Rating;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +43,11 @@ public class RatingDAOImpl implements RatingDAO {
     }
 
     @Override
-    public Rating findRatingBySessionId(Long sessionId) {
-        String sqlStatement = "select r from Rating r where r.session.sessionId = :sessionId";
+    public Rating findRatingBySessionAndLearnerId(Long sessionId, Long learnerId) {
+        String sqlStatement = "select r from Rating r where r.session.sessionId = :sessionId AND r.learner.learnerId = :learnerId";
         TypedQuery<Rating> query = entityManager.createQuery(sqlStatement, Rating.class);
         query.setParameter("sessionId", sessionId);
+        query.setParameter("learnerId", learnerId);
 
         return query.getSingleResult();
     }
@@ -65,8 +65,8 @@ public class RatingDAOImpl implements RatingDAO {
 
     @Override
     @Transactional
-    public void deleteRatingByUserId(Long sessionId) {
-        Rating rating = findRatingBySessionId(sessionId);
+    public void deleteRatingBySessionAndLearnerId(Long sessionId, Long learnerId) {
+        Rating rating = findRatingBySessionAndLearnerId(sessionId, learnerId);
         entityManager.remove(entityManager.contains(rating) ? rating : entityManager.merge(rating));
     }
 }

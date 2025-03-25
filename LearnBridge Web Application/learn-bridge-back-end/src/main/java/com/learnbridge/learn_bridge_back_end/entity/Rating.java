@@ -11,7 +11,7 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id")
-    private Long rating_id;
+    private Long ratingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
@@ -41,7 +41,7 @@ public class Rating {
     }
 
     public Long getRating_id() {
-        return rating_id;
+        return ratingId;
     }
 
     public Session getSession() {

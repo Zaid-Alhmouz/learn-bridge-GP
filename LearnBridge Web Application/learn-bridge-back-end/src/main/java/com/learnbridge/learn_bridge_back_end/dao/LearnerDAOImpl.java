@@ -39,15 +39,7 @@ public class LearnerDAOImpl implements LearnerDAO {
         return entityManager.find(Learner.class, learnerId);
     }
 
-    @Override
-    public Learner getLearnerByFullName(String firstName, String lastName) {
-        String sqlStatement = "select l from Learner l where l.firstName = :firstName and l.lastName = :lastName";
-        TypedQuery<Learner> query = entityManager.createQuery(sqlStatement, Learner.class);
-        query.setParameter("firstName", firstName);
-        query.setParameter("lastName", lastName);
-        Learner learner = query.getSingleResult();
-        return learner;
-    }
+
 
     @Override
     public List<Learner> findAllLearners() {

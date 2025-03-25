@@ -10,6 +10,5 @@ public interface LearnerDAO {
     void updateLearner(Learner learner);
     void deleteLearner(Long learnerId);
     Learner getLearnerById(Long learnerId);
-    Learner getLearnerByFullName(String firstName, String lastName);
     List<Learner> findAllLearners();
 }

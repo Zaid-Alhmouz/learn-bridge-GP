@@ -13,5 +13,6 @@ public interface ReportDAO {
     List<Report> findReportsBySessionId(Long sessionId);
     List<Report> findAllReports();
     List<Report> findPendingReports();
+    List<Report> findResolvedReports();
 
 }
