@@ -20,7 +20,7 @@ const routes: Routes = [
     path: '', component: AuthLayoutComponent, children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
       { path: 'home', component: HomeComponent, title: "Home" },
       { path: 'findinstructor', component: FindInstructorComponent, title: "Find Instructor" },
       { path: 'posts', component: PostsComponent, title: "Posts" },

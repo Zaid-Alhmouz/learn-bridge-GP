@@ -1,23 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../shared/services/auth.service';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
+
+
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  signupForm: FormGroup;
   loginSubmitted = false;
-  signupSubmitted = false;
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private _FormBuilder: FormBuilder,
+    private _AuthService: AuthService,
+    private _Router: Router
+  ) { }
 
   ngOnInit() {
     // Initialize login form with validators
-    this.loginForm = this.fb.group({
+    this.loginForm = this._FormBuilder.group({
       email: ['', [
         Validators.required,
         Validators.email
@@ -27,35 +35,15 @@ export class LoginComponent implements OnInit {
         Validators.minLength(6)
       ]]
     });
-
-    // Initialize signup form with validators
-    this.signupForm = this.fb.group({
-      name: ['', [
-        Validators.required,
-        Validators.minLength(2)
-      ]],
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$') // At least one letter and one number
-      ]]
-    });
   }
 
   // Getter for easy access to form fields
   get lf() { return this.loginForm.controls; }
-  get sf() { return this.signupForm.controls; }
 
   onLoginSubmit() {
     this.loginSubmitted = true;
-
-    // Stop here if form is invalid
+    
     if (this.loginForm.invalid) {
-      // Add shake animation to invalid fields
       const invalidControls = document.querySelectorAll('.login-form .ng-invalid');
       invalidControls.forEach(element => {
         element.classList.add('shake');
@@ -63,46 +51,22 @@ export class LoginComponent implements OnInit {
       });
       return;
     }
-
-    // Add success animation
-    document.querySelector('.login-form')?.classList.add('form-submitted');
     
-    // Form is valid, proceed with login logic
-    console.log('Login form submitted', this.loginForm.value);
-    
-    // You would typically call your authentication service here
-    // this.authService.login(this.loginForm.value).subscribe(...);
+    this._AuthService.setLogin(this.loginForm.value).subscribe({
+      next: (response) => {
+        this.errorMessage = '';
+        this._Router.navigate(['/blank/home']);
+      },
+      error: (error: HttpErrorResponse) => {
+        // Optional: You could add a similar shake animation for error cases
+        this.loginSubmitted = false; // Reset submission flag on error
+        this.errorMessage = error.error.message || 'Login failed. Please check your credentials.';
+      }
+    });
   }
 
-  onSignupSubmit() {
-    this.signupSubmitted = true;
-    
-    // Stop here if form is invalid
-    if (this.signupForm.invalid) {
-      // Add shake animation to invalid fields
-      const invalidControls = document.querySelectorAll('.signup-form .ng-invalid');
-      invalidControls.forEach(element => {
-        element.classList.add('shake');
-        setTimeout(() => element.classList.remove('shake'), 500);
-      });
-      return;
-    }
-
-    // Add success animation
-    document.querySelector('.signup-form')?.classList.add('form-submitted');
-    
-    // Form is valid, proceed with signup logic
-    console.log('Signup form submitted', this.signupForm.value);
-    
-    // You would typically call your user registration service here
-    // this.userService.register(this.signupForm.value).subscribe(...);
-  }
-
-  // Reset form status when switching between forms
-  resetStatus() {
-    this.loginSubmitted = false;
-    this.signupSubmitted = false;
-    document.querySelector('.login-form')?.classList.remove('form-submitted');
-    document.querySelector('.signup-form')?.classList.remove('form-submitted');
+  // Optional: Add forgot password navigation
+  onForgotPassword() {
+    this._Router.navigate(['/forgot-password']);
   }
 }

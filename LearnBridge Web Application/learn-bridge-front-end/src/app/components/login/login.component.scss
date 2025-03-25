@@ -8,7 +8,7 @@
   padding: 30px;
 }
 
-.signup-container {
+.login-container {
   max-width: 500px;
   width: 100%;
   background: #fff;
@@ -18,7 +18,7 @@
 }
 
 /* Form title */
-.signup-form .title {
+.login-form .title {
   position: relative;
   font-size: 24px;
   font-weight: 500;
@@ -27,7 +27,7 @@
   text-align: center;
 }
 
-.signup-form .title:before {
+.login-form .title:before {
   content: "";
   position: absolute;
   left: 50%;
@@ -39,7 +39,7 @@
 }
 
 /* Input boxes */
-.signup-form .input-boxes {
+.login-form .input-boxes {
   margin-top: 30px;
 }
 
@@ -72,6 +72,22 @@
   z-index: 10;
 }
 
+/* Forgot password */
+.forgot-password {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.forgot-password a {
+  color: #03ccba;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
 /* Error messages */
 .error-message {
   font-size: 12px;
@@ -101,19 +117,19 @@
   cursor: not-allowed;
 }
 
-/* Login text */
-.login-text {
+/* Signup text */
+.signup-text {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
 }
 
-.login-text a {
+.signup-text a {
   color: #02a698;
   text-decoration: none;
 }
 
-.login-text a:hover {
+.signup-text a:hover {
   text-decoration: underline;
 }
 
