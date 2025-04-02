@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginSubmitted = false;
   errorMessage: string = '';
-
+  isLoading = false;
   constructor(
     private _FormBuilder: FormBuilder,
     private _AuthService: AuthService,
@@ -41,25 +41,34 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     this.loginSubmitted = true;
-    
+    this.isLoading = true;
     if (this.loginForm.invalid) {
       const invalidControls = document.querySelectorAll('.login-form .ng-invalid');
       invalidControls.forEach(element => {
         element.classList.add('shake');
         setTimeout(() => element.classList.remove('shake'), 500);
       });
+
+      this.loginForm.markAllAsTouched();
+
       return;
     }
-    
+
     this._AuthService.setLogin(this.loginForm.value).subscribe({
       next: (response) => {
         this.errorMessage = '';
+
+        // localStorage.setItem("eToken", response.token);
+        // this._AuthService.decodeUserData()
+
         this._Router.navigate(['/blank/home']);
+        this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
         // Optional: You could add a similar shake animation for error cases
         this.loginSubmitted = false; // Reset submission flag on error
         this.errorMessage = error.error.message || 'Login failed. Please check your credentials.';
+        this.isLoading = false;
       }
     });
   }

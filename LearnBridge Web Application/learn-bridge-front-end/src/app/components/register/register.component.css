@@ -153,3 +153,41 @@
   animation: shake 0.5s;
   border-color: #e74c3c;
 }
+
+/* Spinner Styles */
+.button.input-box {
+  position: relative;
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(3, 204, 186, 0.3);
+  border-radius: 50%;
+  border-top-color: #03ccba;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modify submit button during loading */
+.button input[disabled] {
+  position: relative;
+  color: transparent;
+}

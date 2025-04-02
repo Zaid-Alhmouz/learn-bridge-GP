@@ -22,7 +22,10 @@
 // *********************************************************************************************
 
 
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
@@ -32,16 +35,27 @@ import { delay } from 'rxjs/operators';
 export class AuthService {
   // Mock user storage (simulating a database)
   private users: any[] = [];
-
+  userData:any;
   // Flag to track login status
   private isLoggedIn = false;
 
-  constructor() {}
+  constructor(private _HttpClient: HttpClient, private _Router: Router) { }
+
+
+  // decodeUserData(){
+  //   if(localStorage.getItem("eToken") != null){
+  //     let encodeToken:any = localStorage.getItem("eToken");
+
+  //     let decodeToken = jwtDecode(encodeToken);
+
+  //     this.userData = decodeToken;
+  //   }
+  // }
 
   // Mock registration method (unchanged from previous version)
   setRegister(userData: any): Observable<any> {
     const existingUser = this.users.find(user => user.email === userData.email);
-    
+
     if (existingUser) {
       return throwError(() => ({
         error: { message: 'Email already exists' }
@@ -64,16 +78,16 @@ export class AuthService {
     if (user) {
       // Set login status to true
       this.isLoggedIn = true;
-      
-      return of({ 
-        success: true, 
+
+      return of({
+        success: true,
         user,
-        message: 'Login successful' 
+        message: 'Login successful'
       });
     } else {
       // Reset login status
       this.isLoggedIn = false;
-      
+
       return throwError(() => ({
         error: { message: 'Invalid email or password' }
       }));
@@ -88,7 +102,8 @@ export class AuthService {
   // Method to logout
   logout() {
     this.isLoggedIn = false;
+    // localStorage.removeItem("eToken");
+    this._Router.navigate(['/login']);
+
   }
 }
-
-

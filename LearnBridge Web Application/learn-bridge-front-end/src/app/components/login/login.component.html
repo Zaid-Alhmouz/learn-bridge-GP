@@ -62,9 +62,19 @@
           <p *ngIf="errorMessage" class="alert alert-danger">
             {{ errorMessage }}
           </p>
+
+
           <div class="button input-box">
-            <input type="submit" [disabled]="loginForm.invalid" value="Login" />
+            <input
+              type="submit"
+              value="{{ isLoading ? 'Logging In...' : 'Login' }}"
+            />
+            <!-- Loading Spinner -->
+            <div *ngIf="isLoading" class="spinner-overlay">
+              <div class="spinner"></div>
+            </div>
           </div>
+
           <div class="text signup-text">
             Don't have an account? <a routerLink="/register">Sign Up</a>
           </div>

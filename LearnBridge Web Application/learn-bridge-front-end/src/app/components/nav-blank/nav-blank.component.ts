@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-nav-blank',
@@ -7,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './nav-blank.component.scss'
 })
 export class NavBlankComponent {
-  
+
+
+  constructor(private _AuthService: AuthService) {
+    
+  }
+  logoutUser(){
+    this._AuthService.logout()
+  }
 }
